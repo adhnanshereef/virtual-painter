@@ -193,7 +193,7 @@ class HandGestureDrawingApp:
         # Link
         link_label = tk.Label(self.ad_frame, text="day.adhnan.tech", 
                             font=("Arial", 12, "underline"), bg=self.ad_bg_color, 
-                            fg="#64B5F6", cursor="hand2")
+                            fg="white", cursor="hand2")
         link_label.pack(pady=10)
         
         # Add some spacing
