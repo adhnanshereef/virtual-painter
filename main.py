@@ -5,6 +5,7 @@ import tkinter as tk
 from tkinter import colorchooser, ttk
 from PIL import Image, ImageTk
 import math
+import os
 
 class HandGestureDrawingApp:
     def __init__(self, root):
@@ -43,6 +44,21 @@ class HandGestureDrawingApp:
         self.drawing_layer = None
         self.status = "Ready"
         
+        # Ad properties
+        self.ad_width = 300  # Width of the ad panel
+        self.show_ad = True  # Flag to control ad visibility
+        self.ad_bg_color = "#1a1a1a"  # Dark background for ad
+        
+        # Try to load QR code image
+        self.qr_image = None
+        try:
+            qr_path = "day-qr.png"
+            if os.path.exists(qr_path):
+                qr_img = Image.open(qr_path)
+                self.qr_image = ImageTk.PhotoImage(qr_img.resize((200, 200), Image.LANCZOS))
+        except Exception as e:
+            print(f"Error loading QR code: {e}")
+        
         # Initialize camera
         self.cap = cv2.VideoCapture(0)
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
@@ -57,14 +73,29 @@ class HandGestureDrawingApp:
     def create_ui(self):
         # Main frame for camera view
         camera_frame_height = self.root.winfo_screenheight() - 150  # Reserve space for control panel
-        self.camera_frame = tk.Frame(self.root, bg="#212121")
-        self.camera_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        
+        # Create main content frame to hold camera and ad side by side
+        main_content = tk.Frame(self.root, bg="#212121")
+        main_content.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+        
+        # Camera frame on the left
+        self.camera_frame = tk.Frame(main_content, bg="#212121")
+        self.camera_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        
+        # Ad frame on the right
+        self.ad_frame = tk.Frame(main_content, bg=self.ad_bg_color, width=self.ad_width)
+        self.ad_frame.pack(side=tk.RIGHT, fill=tk.Y)
+        # Make sure ad frame maintains its width
+        self.ad_frame.pack_propagate(False)
         
         # Camera canvas - set fixed size
-        self.canvas_width = 1280
+        self.canvas_width = 1280 - self.ad_width  # Adjusted to leave space for ad
         self.canvas_height = camera_frame_height
         self.canvas = tk.Canvas(self.camera_frame, bg="black", width=self.canvas_width, height=self.canvas_height)
         self.canvas.pack(fill=tk.BOTH, expand=True)
+        
+        # Add ad content
+        self.create_ad_content()
         
         # Control panel (at the bottom)
         self.control_panel = tk.Frame(self.root, bg="#333333", height=150)
@@ -149,6 +180,39 @@ class HandGestureDrawingApp:
         for gesture in gestures:
             tk.Label(guide_frame, text=gesture, bg="#333333", fg="white", font=("Arial", 10), 
                     anchor=tk.W).pack(pady=2, fill=tk.X)
+    
+    def create_ad_content(self):
+        # Ad title
+        tk.Label(self.ad_frame, text="Day App", font=("Arial", 24, "bold"), 
+                bg=self.ad_bg_color, fg="#800080", pady=20).pack(pady=(50, 10))
+        
+        # Tagline
+        tk.Label(self.ad_frame, text="Organize your World with Day", 
+                font=("Arial", 14), bg=self.ad_bg_color, fg="white").pack(pady=10)
+        
+        # Link
+        link_label = tk.Label(self.ad_frame, text="day.adhnan.tech", 
+                            font=("Arial", 12, "underline"), bg=self.ad_bg_color, 
+                            fg="#64B5F6", cursor="hand2")
+        link_label.pack(pady=10)
+        
+        # Add some spacing
+        tk.Frame(self.ad_frame, height=30, bg=self.ad_bg_color).pack()
+        
+        # QR code (if loaded)
+        if self.qr_image:
+            qr_label = tk.Label(self.ad_frame, image=self.qr_image, bg=self.ad_bg_color)
+            qr_label.pack(pady=20)
+        else:
+            # Placeholder for QR code if image not loaded
+            qr_placeholder = tk.Frame(self.ad_frame, width=200, height=200, bg="#333333")
+            qr_placeholder.pack(pady=20)
+            tk.Label(qr_placeholder, text="QR Code", font=("Arial", 14), 
+                    bg="#333333", fg="white").place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+            
+        # Bottom call to action
+        tk.Button(self.ad_frame, text="Learn More", font=("Arial", 12, "bold"), 
+                 bg="#4CAF50", fg="white", padx=15, pady=8).pack(pady=30)
     
     def set_draw_mode(self):
         self.draw_mode = self.mode_var.get()
@@ -343,12 +407,12 @@ class HandGestureDrawingApp:
             img = cv2.cvtColor(display_frame, cv2.COLOR_BGR2RGB)
             img = Image.fromarray(img)
             
-            # Resize the image to fit the fixed canvas size
+            # Resize the image to fit the canvas size (accounting for ad space)
             img = img.resize((self.canvas_width, self.canvas_height), Image.LANCZOS)
             
             self.photo = ImageTk.PhotoImage(image=img)
             
-            # Update canvas without changing its size
+            # Update canvas
             self.canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
             
         # Schedule the next update
