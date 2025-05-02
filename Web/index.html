@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,14 +8,26 @@
     <link rel="icon" href="A.png" type="image/x-icon">
     <!-- MediaPipe imports -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
     <!-- Custom styles -->
     <link rel="stylesheet" href="styles.css">
     <!-- Google Search Console -->
     <meta name="google-site-verification" content="4K0M8Lm73ccqmYGe54vgkf9wOHcgetUxLjBYQfkWA4w" />
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-3WEDWFSZDG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-3WEDWFSZDG');
+    </script>
 </head>
+
 <body>
     <div class="main-container">
         <div class="camera-container">
@@ -24,7 +37,7 @@
             <button id="toggle-panel" class="toggle-panel-btn"><span class="chevron">▲</span></button>
         </div>
     </div>
-    
+
     <div class="control-panel glass-panel">
         <div class="control-section glass-card">
             <div class="section-title">Drawing Mode</div>
@@ -39,7 +52,7 @@
                 </label>
             </div>
         </div>
-        
+
         <div class="control-section glass-card">
             <div class="section-title">Tools</div>
             <div class="tools-container">
@@ -50,20 +63,26 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="control-section glass-card">
             <div class="section-title">Colors</div>
             <div class="color-grid">
-                <div class="color-button active" style="background-color: #FF0000;" data-color="255,0,0" data-name="Red"></div>
-                <div class="color-button" style="background-color: #00FF00;" data-color="0,255,0" data-name="Green"></div>
-                <div class="color-button" style="background-color: #0000FF;" data-color="0,0,255" data-name="Blue"></div>
-                <div class="color-button" style="background-color: #FFFF00;" data-color="255,255,0" data-name="Yellow"></div>
-                <div class="color-button" style="background-color: #FF00FF;" data-color="255,0,255" data-name="Purple"></div>
-                <div class="color-button" style="background-color: #FFFFFF;" data-color="255,255,255" data-name="White"></div>
+                <div class="color-button active" style="background-color: #FF0000;" data-color="255,0,0"
+                    data-name="Red"></div>
+                <div class="color-button" style="background-color: #00FF00;" data-color="0,255,0" data-name="Green">
+                </div>
+                <div class="color-button" style="background-color: #0000FF;" data-color="0,0,255" data-name="Blue">
+                </div>
+                <div class="color-button" style="background-color: #FFFF00;" data-color="255,255,0" data-name="Yellow">
+                </div>
+                <div class="color-button" style="background-color: #FF00FF;" data-color="255,0,255" data-name="Purple">
+                </div>
+                <div class="color-button" style="background-color: #FFFFFF;" data-color="255,255,255" data-name="White">
+                </div>
             </div>
             <button id="custom-color" class="button">Custom Color</button>
         </div>
-        
+
         <div class="control-section glass-card">
             <div class="section-title">Gesture Guide</div>
             <ul class="guide-list">
@@ -81,7 +100,8 @@
             <button id="close-popup" class="close-button">&times;</button>
             <div class="ad-title">Day App</div>
             <div class="ad-tagline">Organize your World with Day</div>
-            <div class="ad-des">Seamlessly track your income and expenses, manage daily tasks, build routines, and organize your notes—all in one place.</div>
+            <div class="ad-des">Seamlessly track your income and expenses, manage daily tasks, build routines, and
+                organize your notes—all in one place.</div>
             <a href="https://day.adhnan.tech" target="_blank" class="ad-link">day.adhnan.tech</a>
             <div class="qr-code">
                 <img src="./day-qr.png" alt="QR Code">
@@ -93,4 +113,5 @@
     <!-- Custom scripts -->
     <script src="script.js"></script>
 </body>
+
 </html>
